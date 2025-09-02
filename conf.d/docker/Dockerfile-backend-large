@@ -1,0 +1,51 @@
+FROM dm8-python-env:latest
+
+# 设置环境变量
+ENV CONDA_DIR=/opt/conda \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    DEBIAN_FRONTEND=noninteractive
+
+# 安装基础构建工具和 Miniconda
+RUN yum install -y curl bzip2 git gcc gcc-c++ make && \
+    curl -fsSL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -o miniconda.sh && \
+    bash miniconda.sh -b -p $CONDA_DIR && \
+    rm miniconda.sh
+
+# 添加 Conda 路径到环境变量
+ENV PATH=$CONDA_DIR/bin:$PATH
+
+# 接受 Conda 官方频道的 ToS（Terms of Service）
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
+# 创建 Python 3.12 环境并安装依赖
+RUN conda create -n py312 python=3.12 -y && \
+    conda run -n py312 conda install -y scikit-learn numpy pandas && \
+    conda run -n py312 pip install --upgrade pip
+
+# 创建代码目录（Docker Compose 挂载目标）
+RUN mkdir -p /vue-fastapi-admin
+
+# 拷贝 requirements，仅用于构建依赖
+COPY ./requirements.txt /vue-fastapi-admin/requirements.txt
+COPY ./requirements-kg.txt /vue-fastapi-admin/requirements-kg.txt
+
+# 安装项目依赖到虚拟环境中
+RUN conda run -n py312 pip install -r /vue-fastapi-admin/requirements.txt -i https://mirrors.aliyun.com/pypi/simple && \
+    conda run -n py312 pip install -r /vue-fastapi-admin/requirements-kg.txt -i https://mirrors.aliyun.com/pypi/simple && \
+    conda clean -afy
+
+COPY ./conf.d/docker/zh_core_web_md_offlineall/ /vue-fastapi-admin/zh_core_web_md_offlineall/
+RUN conda run -n py312 pip install --no-index --find-links=/vue-fastapi-admin/zh_core_web_md_offlineall zh_core_web_md
+
+# 设置工作目录
+WORKDIR /vue-fastapi-admin
+
+EXPOSE 9999
+
+# 使用自定义启动脚本
+COPY ./conf.d/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

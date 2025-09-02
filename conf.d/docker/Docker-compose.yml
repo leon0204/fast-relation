@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.28
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${ELASTIC_DATA}:/usr/share/elasticsearch/data
+      - ${ELASTIC_LOGS}:/usr/share/elasticsearch/logs
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: always
+    networks:
+      - kg-network
+
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/neo4j123
+      - NEO4J_PLUGINS=["apoc", "graph-data-science"]
+      - NEO4J_dbms_security_procedures_unrestricted='apoc.*,gds.*'
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+    volumes:
+      - ${NEO4J_DATA}:/data
+      - ${NEO4J_CONF}:/conf
+      - ${NEO4J_IMPORT}:/var/lib/neo4j/import
+      - ${NEO4J_LOGS}:/logs
+      - ${NEO4J_PLUGINS}:/plugins
+    restart: always
+    networks:
+      - kg-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - kg-network
+    restart: always
+    volumes:
+      - ${ZOOKEEPER_DATA}:/var/lib/zookeeper/data
+      - ${ZOOKEEPER_LOG}:/var/lib/zookeeper/log
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092
+      # 对外广播地址，宿主机访问用 localhost，容器访问用 kafka:19092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:19092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    networks:
+      - kg-network
+    restart: always
+    volumes:
+      - ${KAFKA_DATA}:/var/lib/kafka/data
+
+#  backend:
+#   image: backend:latest
+#   container_name: backend
+#   volumes:
+#     - ${BACKEND_CODE}:/vue-fastapi-admin
+#     - ${PYCORRECTOR_DATA_PATH}:/root/.pycorrector/datasets/zh_giga.no_cna_cmn.prune01244.klm
+#   ports:
+#     - "9999:9999"
+#   working_dir: /vue-fastapi-admin
+#   restart: always
+#   tty: true
+#   depends_on:
+#     - elasticsearch
+#     - neo4j
+#     - zookeeper
+#     - kafka
+#   networks:
+#     - kg-network
+#   environment:
+#     - ENV=prod
+#
+#  web:
+#   image: web:latest
+#   container_name: web
+#   ports:
+#     - "80:80"
+#   restart: always
+#   volumes:
+#     - ${DIST_PATH}:/vue-fastapi-admin/dist
+#     - ${NGINX_CONF}:/etc/nginx/conf.d/kgproxy.conf
+#     - ${NGINX_LOG}:/var/log/nginx
+#   networks:
+#     - kg-network
+
+networks:
+  kg-network:
+    external: true

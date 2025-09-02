@@ -1,0 +1,219 @@
+创始人:
+  standard: founder
+  alias: ["创办者", "创建人", "建立人", "联合创始人"]
+
+配偶:
+  standard: spouse
+  alias: ["老婆", "老公", "结婚对象", "夫妇"]
+
+投资人:
+  standard: investor
+  alias: ["资方", "股东", "出资人"]
+
+父亲:
+  standard: father
+  alias: ["爸爸", "爹", "生父", "父亲大人"]
+
+母亲:
+  standard: mother
+  alias: ["妈妈", "娘", "生母", "母亲大人"]
+
+子女:
+  standard: children
+  alias: ["儿女", "孩子", "后代", "子嗣"]
+
+兄弟:
+  standard: brother
+  alias: ["哥哥", "弟弟", "兄长"]
+
+姐妹:
+  standard: sister
+  alias: ["姐姐", "妹妹", "姊妹"]
+
+朋友:
+  standard: friend
+  alias: ["好友", "闺蜜", "朋友"]
+
+导师:
+  standard: mentor
+  alias: ["指导老师", "教练"]
+
+学生:
+  standard: student
+  alias: ["门生", "弟子", "学生"]
+
+合作伙伴:
+  standard: partner
+  alias: ["联合创始人", "合伙人"]
+
+老板:
+  standard: boss
+  alias: ["上司", "领导", "雇主"]
+
+下属:
+  standard: subordinate
+  alias: ["员工", "职员", "部属"]
+
+同事:
+  standard: colleague
+  alias: ["搭档", "共事者", "合作对象"]
+
+董事长:
+  standard: chairman
+  alias: ["董事会主席", "主席"]
+
+首席执行官:
+  standard: CEO
+  alias: ["总裁", "执行总裁", "首席官"]
+
+上级:
+  standard: superior
+  alias: ["领导", "上司"]
+
+所属组织:
+  standard: organization
+  alias: ["单位", "所属公司", "所属机构"]
+
+毕业院校:
+  standard: alma_mater
+  alias: ["毕业学校", "母校", "院校"]
+
+学历:
+  standard: education
+  alias: ["文凭", "学位", "教育背景"]
+
+专业:
+  standard: major
+  alias: ["主修", "学习方向", "研究方向"]
+
+老师:
+  standard: teacher
+  alias: ["导师", "授课老师"]
+
+班主任:
+  standard: head_teacher
+  alias: ["辅导员", "管理老师"]
+
+任职公司:
+  standard: employer
+  alias: ["所在公司", "就业单位"]
+
+职位:
+  standard: position
+  alias: ["职务", "岗位", "职称"]
+
+任期:
+  standard: tenure
+  alias: ["任职时间", "服务期", "任职年限"]
+
+所在部门:
+  standard: department
+  alias: ["科室", "处室", "机构部门"]
+
+获奖记录:
+  standard: awards
+  alias: ["奖项", "奖章", "荣誉"]
+
+作品:
+  standard: works
+  alias: ["著作", "代表作", "成果"]
+
+参演作品:
+  standard: acted_in
+  alias: ["演出", "出演", "参演"]
+
+导演:
+  standard: director
+  alias: ["执导", "导演人"]
+
+编剧:
+  standard: screenwriter
+  alias: ["剧本作者", "策划"]
+
+代表歌曲:
+  standard: songs
+  alias: ["代表作", "音乐作品"]
+
+粉丝:
+  standard: fans
+  alias: ["追随者", "粉丝群", "关注者"]
+
+政党:
+  standard: party
+  alias: ["所属党派", "党组织", "党籍"]
+
+政治职务:
+  standard: political_position
+  alias: ["政治头衔", "政治角色"]
+
+就职国家:
+  standard: nation
+  alias: ["任职国家", "国家名称"]
+
+国籍:
+  standard: citizenship
+  alias: ["所属国家", "国民身份"]
+
+语言:
+  standard: language
+  alias: ["母语", "会的语言", "使用语言"]
+
+宗教信仰:
+  standard: religion
+  alias: ["宗教", "信仰"]
+
+出生地:
+  standard: birthplace
+  alias: ["籍贯", "出生城市", "家乡"]
+
+出生日期:
+  standard: birth_date
+  alias: ["生日", "出生时间"]
+
+去世日期:
+  standard: death_date
+  alias: ["逝世时间", "死亡时间"]
+
+性别:
+  standard: gender
+  alias: ["性别身份", "男女"]
+
+民族:
+  standard: ethnicity
+  alias: ["种族", "族群", "族别"]
+
+通讯地址:
+  standard: address
+  alias: ["居住地", "邮寄地址", "联系地址"]
+
+手机号:
+  standard: phone
+  alias: ["手机", "联系电话", "号码"]
+
+邮箱:
+  standard: email
+  alias: ["电子邮箱", "邮箱地址", "email"]
+
+微博:
+  standard: weibo
+  alias: ["微博账号", "新浪微博", "微博主页"]
+
+抖音:
+  standard: tiktok
+  alias: ["抖音号", "抖音主页", "抖音账号"]
+
+微信:
+  standard: wechat
+  alias: ["微信号", "微信ID", "微信账号"]
+
+所属行业:
+  standard: industry
+  alias: ["行业", "业务领域", "从事行业"]
+
+合作品牌:
+  standard: brands
+  alias: ["品牌合作", "代言品牌", "广告合作"]
+
+签约公司:
+  standard: agency
+  alias: ["签约机构", "经纪公司", "代理机构"]

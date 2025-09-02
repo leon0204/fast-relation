@@ -1,0 +1,29 @@
+FROM dm8-python-env:latest
+
+# 设置环境变量
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on
+
+# 配置pip
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip3 config set global.trusted-host mirrors.aliyun.com
+
+# 创建工作目录
+RUN mkdir -p /vue-fastapi-admin/app
+
+# 复制文件
+COPY ./requirements-kg.txt /vue-fastapi-admin/requirements.txt
+
+# 安装依赖
+RUN pip3 install --no-cache-dir -r /vue-fastapi-admin/requirements.txt
+
+# 设置工作目录
+WORKDIR /vue-fastapi-admin
+
+EXPOSE 9999
+
+# 使用自定义启动脚本
+COPY ./conf.d/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

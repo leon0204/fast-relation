@@ -1,0 +1,8 @@
+FROM nginx:stable-alpine
+
+# 创建工作目录
+RUN mkdir -p /vue-fastapi-admin/dist
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

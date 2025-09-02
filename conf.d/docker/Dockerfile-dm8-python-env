@@ -1,0 +1,32 @@
+FROM dm8:latest
+
+ENV TZ=Asia/Shanghai
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN yum makecache
+
+# 安装构建环境
+RUN yum -y groupinstall "Development Tools" && \
+    yum -y install gcc gcc-c++ make zlib-devel bzip2 bzip2-devel \
+        readline-devel sqlite sqlite-devel \
+        openssl openssl-devel \
+        libffi-devel wget xz xz-devel
+
+# 编译安装 Python
+ARG PYTHON_VERSION=3.12.11
+WORKDIR /usr/src
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
+    tar xzf Python-${PYTHON_VERSION}.tgz && \
+    cd Python-${PYTHON_VERSION} && \
+    ./configure --enable-optimizations --with-openssl=/usr && \
+    make -j$(nproc) && \
+    make install
+
+# 设置 PATH
+ENV PATH="/usr/local/python3.12/bin:$PATH"
+
+# 配置pip
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip3 config set global.trusted-host mirrors.aliyun.com
+
+ENTRYPOINT ["/bin/bash"]

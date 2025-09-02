@@ -1,0 +1,33 @@
+services:
+   backend:
+     image: backend:latest
+     container_name: backend
+     volumes:
+       - ${BACKEND_CODE}:/vue-fastapi-admin
+       - ${PYCORRECTOR_DATA_PATH}:/root/.pycorrector/datasets/zh_giga.no_cna_cmn.prune01244.klm
+     ports:
+       - "9999:9999"
+     working_dir: /vue-fastapi-admin
+     restart: always
+     tty: true
+     networks:
+       - kg-network
+     environment:
+       - ENV=prod
+
+   web:
+     image: web:latest
+     container_name: web
+     ports:
+       - "80:80"
+     restart: always
+     volumes:
+       - ${DIST_PATH}:/vue-fastapi-admin/dist
+       - ${NGINX_CONF}:/etc/nginx/conf.d/kgproxy.conf
+       - ${NGINX_LOG}:/var/log/nginx
+     networks:
+       - kg-network
+
+networks:
+  kg-network:
+    external: true

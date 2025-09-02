@@ -1,0 +1,17 @@
+services:
+   web:
+     image: web:latest
+     container_name: web
+     ports:
+       - "80:80"
+     restart: always
+     volumes:
+       - ${DIST_PATH}:/vue-fastapi-admin/dist
+       - ${NGINX_CONF}:/etc/nginx/conf.d/kgproxy.conf
+       - ${NGINX_LOG}:/var/log/nginx
+     networks:
+       - kg-network
+
+networks:
+  kg-network:
+    external: true

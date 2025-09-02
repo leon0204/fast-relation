@@ -1,0 +1,1 @@
+import{_ as t}from"./AppPage-24725091.js";import{_ as o,O as c,P as n,Q as s,U as _}from"./index-4af02034.js";const a={},r=_("h1",null,"一级菜单",-1);function f(i,l){const e=t;return c(),n(e,null,{default:s(()=>[r]),_:1})}const m=o(a,[["render",f]]);export{m as default};
