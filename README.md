@@ -13,7 +13,7 @@
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-black"></a>
 </p>
 
-
+![img_1.png](img_1.png)
 
 后端流程：
 - 导入docker镜像
@@ -149,3 +149,7 @@ docker-compose --env-file conf.d/docker/.env -f conf.d/docker/Docker-compose-kg.
 docker-compose --env-file conf.d/docker/.env -f conf.d/docker/Docker-compose.yml down
 docker-compose --env-file conf.d/docker/.env -f conf.d/docker/Docker-compose-kg.yml down
 ```
+
+![img_2.png](img_2.png)
+
+![img_3.png](img_3.png)
